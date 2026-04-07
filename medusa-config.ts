@@ -12,33 +12,33 @@ module.exports = defineConfig({
       adminCors: process.env.ADMIN_CORS  || "http://localhost:8000,http://localhost:3000",
       authCors: process.env.AUTH_CORS    || "http://localhost:8000,http://localhost:3000",
       jwtSecret: process.env.JWT_SECRET  || "supersecret", 
-      cookieSecret: process.env.COOKIE_SECRET ||"supersecret",
+      cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
   },
-admin: {
-  disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
-  backendUrl: process.env.MEDUSA_BACKEND_URL,
-},
-modules: [
-  {
-    resolve: "@medusajs/medusa/cache-redis",
-    options: {
-      redisUrl: process.env.REDIS_URL,
-    },
+  admin: {
+    disable: process.env.DISABLE_MEDUSA_ADMIN === "true",
+    backendUrl: process.env.MEDUSA_BACKEND_URL,
   },
-  {
-    resolve: "@medusajs/medusa/event-bus-redis",
-    options:{
-      redisUrl: process.env.REDIS_URL,
+  modules: [
+    {
+      resolve: "@medusajs/medusa/cache-redis",
+      options: {
+        redisUrl: process.env.REDIS_URL,
       },
     },
     {
-      resolve: "@medusajs/medus/workflow-engine-redis",
-      options:{
-      redis: {
-        url: process.env.REDIS_URL,
+      resolve: "@medusajs/medusa/event-bus-redis",
+      options: {
+        redisUrl: process.env.REDIS_URL,
       },
     },
-  },
-],
+    {
+      resolve: "@medusajs/medusa/workflow-engine-redis", // ✅ fixed
+      options: {
+        redis: {
+          url: process.env.REDIS_URL,
+        },
+      },
+    },
+  ],
 })
